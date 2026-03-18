@@ -79,6 +79,6 @@ class JSoupDocumentParserTest {
         assertEquals(28, entryWithNoComments.getNumber());
         assertEquals("Explore 19th Century Scientific Correspondence", entryWithNoComments.getTitle());
         assertEquals(6, entryWithNoComments.getPoints());
-        assertNull(entryWithNoComments.getComments());
+        assertEquals(0, entryWithNoComments.getComments());
     }
 }

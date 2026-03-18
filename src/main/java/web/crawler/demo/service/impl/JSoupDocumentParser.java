@@ -95,7 +95,7 @@ public class JSoupDocumentParser implements DocumentParser {
                 .map(Elements::first)
                 .map(Element::text)
                 .map(extractDigits())
-                .orElse(null);
+                .orElse(0);
     }
 
     private Function<String, Integer> extractDigits() {
