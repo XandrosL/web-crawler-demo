@@ -1,4 +1,4 @@
-package web.crawler.demo.service;
+package web.crawler.demo.service.helper;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import web.crawler.demo.domain.Entry;
+import web.crawler.demo.service.helper.EntryStreamHelper;
 import web.crawler.demo.util.MockData;
 
 @SpringBootTest

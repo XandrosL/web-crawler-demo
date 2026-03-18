@@ -4,7 +4,7 @@ import java.util.List;
 
 import web.crawler.demo.domain.Entry;
 
-public interface WebClient {
+public interface DocumentParser {
 
     List<Entry> getEntries(int numberOfEntries);
 }

@@ -1,4 +1,4 @@
-package web.crawler.demo.service;
+package web.crawler.demo.service.helper;
 
 import java.util.stream.Stream;
 
