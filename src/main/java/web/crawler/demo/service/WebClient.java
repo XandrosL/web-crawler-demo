@@ -2,9 +2,9 @@ package web.crawler.demo.service;
 
 import java.util.List;
 
-import web.crawler.demo.service.dto.Entries;
+import web.crawler.demo.domain.Entry;
 
 public interface WebClient {
 
-    List<Entries> getEntries(int numberOfEntries);
+    List<Entry> getEntries(int numberOfEntries);
 }
