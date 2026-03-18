@@ -20,7 +20,7 @@ class EntryStreamHelperTest {
     @Test
     void shouldFilterLongTitlesGivenValidInput() {
         Stream<Entry> result = entryStreamHelper.filterLongTitles(
-                MockData.ENTRY_STREAM_WITH_LONG_AND_SHORT_TITLES);
+                MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES.stream());
 
         result.forEach(entry -> assertTrue(entry.countWordsInTitle() > 4,
                 "Entry should have 5 or more words in title - It has " + entry.countWordsInTitle()
@@ -30,7 +30,7 @@ class EntryStreamHelperTest {
     @Test
     void shouldFilterShortTitlesGivenValidInput() {
         Stream<Entry> result = entryStreamHelper.filterShortTitles(
-                MockData.ENTRY_STREAM_WITH_LONG_AND_SHORT_TITLES);
+                MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES.stream());
 
         result.forEach(entry -> assertTrue(entry.countWordsInTitle() <= 4,
                 "Entry should have 4 or fewer words in title - It has " + entry.countWordsInTitle()
@@ -40,7 +40,7 @@ class EntryStreamHelperTest {
     @Test
     void shouldOrderByNumberOfCommentsGivenValidInput() {
         Stream<Entry> result = entryStreamHelper.orderByNumberOfComments(
-                MockData.ENTRY_STREAM_WITH_LONG_AND_SHORT_TITLES);
+                MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES.stream());
 
         result.reduce((e1, e2) -> {
             assertTrue(e1.getComments() >= e2.getComments(),
@@ -54,7 +54,7 @@ class EntryStreamHelperTest {
     @Test
     void shouldOrderByPointsGivenValidInput() {
         Stream<Entry> result = entryStreamHelper.orderByPoints(
-                MockData.ENTRY_STREAM_WITH_LONG_AND_SHORT_TITLES);
+                MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES.stream());
 
         result.reduce((e1, e2) -> {
             assertTrue(e1.getPoints() >= e2.getPoints(),

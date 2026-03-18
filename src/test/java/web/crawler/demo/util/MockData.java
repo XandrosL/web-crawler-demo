@@ -1,5 +1,6 @@
 package web.crawler.demo.util;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import web.crawler.demo.domain.Entry;
@@ -34,7 +35,7 @@ public class MockData {
                         .comments(34)
                         .build();
 
-        public static final Stream<Entry> ENTRY_STREAM_WITH_LONG_AND_SHORT_TITLES = Stream.of(
+        public static final List<Entry> ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES = List.of(
                         ENTRY_WITH_12_WORDS,
                         ENTRY_WITH_4_WORDS,
                         ENTRY_WITH_5_WORDS,
