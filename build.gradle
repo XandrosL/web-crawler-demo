@@ -3,6 +3,7 @@ plugins {
     id 'jacoco'
     id 'org.springframework.boot' version '3.5.11'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'info.solidsoft.pitest' version '1.19.0-rc.3'
 }
 
 group = "web.crawler.demo"
@@ -44,4 +45,25 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    finalizedBy(tasks.named('jacocoTestReport'))
+
+    // Uncomment the following to run mutation tests automatically, such as in a CI/CD pipeline.
+    // Gradle build takes quite longer with them on, so I'm running them on demand only.
+    
+    // finalizedBy(tasks.named('pitest'))
+}
+
+jacocoTestReport {
+    dependsOn(tasks.named('test'))
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+}
+
+pitest {
+    junit5PluginVersion = '1.2.3'
+    targetClasses = ['web.crawler.demo.*']
+    threads = 16
+    outputFormats = ['HTML', 'XML']
 }
