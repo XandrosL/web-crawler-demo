@@ -13,14 +13,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
+import web.crawler.demo.configuration.AppProperties;
 import web.crawler.demo.domain.Entry;
 import web.crawler.demo.service.client.JSoupClient;
 
@@ -28,11 +29,14 @@ import web.crawler.demo.service.client.JSoupClient;
 @Slf4j
 class JSoupDocumentParserTest {
 
-    @InjectMocks
+    @Autowired
     private JSoupDocumentParser webClient;
 
-    @Mock
+    @MockitoBean
     private JSoupClient jSoupClient;
+
+    @Autowired
+    private AppProperties appProperties;
 
     @BeforeEach
     void setUp() {
@@ -40,7 +44,7 @@ class JSoupDocumentParserTest {
             Document mockDocument = Jsoup.parse(
                     getClass().getClassLoader().getResourceAsStream("example-content.html"),
                     null,
-                    "https://news.ycombinator.com/");
+                    appProperties.getTargetUrl());
             Mockito.when(jSoupClient.getDocument(any())).thenReturn(mockDocument);
         } catch (Exception e) {
             throw new RuntimeException(e);

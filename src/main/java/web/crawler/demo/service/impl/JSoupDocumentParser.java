@@ -1,13 +1,11 @@
 package web.crawler.demo.service.impl;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -17,6 +15,7 @@ import com.google.common.collect.Lists;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import web.crawler.demo.configuration.AppProperties;
 import web.crawler.demo.domain.Entry;
 import web.crawler.demo.service.DocumentParser;
 import web.crawler.demo.service.client.JSoupClient;
@@ -26,12 +25,11 @@ import web.crawler.demo.service.client.JSoupClient;
 @Slf4j
 public class JSoupDocumentParser implements DocumentParser {
 
-    private static final String URL = "https://news.ycombinator.com/";
-
+    private final AppProperties appProperties;
     private final JSoupClient jsoupClient;
 
     public List<Entry> getEntries(int numberOfEntries) {
-        Document document = jsoupClient.getDocument(URL);
+        Document document = jsoupClient.getDocument(appProperties.getTargetUrl());
         log.info("Document charset: {}", document.outputSettings().charset());
         Elements rows = document.getElementById("bigbox").children().select("tr");
 
