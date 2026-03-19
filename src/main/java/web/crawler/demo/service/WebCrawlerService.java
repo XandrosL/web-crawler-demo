@@ -6,5 +6,5 @@ import web.crawler.demo.domain.Entry;
 
 public interface WebCrawlerService {
 
-    List<Entry> getEntries(String filter, Integer numberOfEntries);
+    List<Entry> getEntries(Integer limit, String filter);
 }

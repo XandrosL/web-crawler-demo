@@ -21,10 +21,9 @@ public class WebCrawlerServiceImpl implements WebCrawlerService {
     private final UsageDataService usageDataService;
 
     @Override
-    public List<Entry> getEntries(String filter, Integer numberOfEntries) {
-
+    public List<Entry> getEntries(Integer limit, String filter) {
         TitleFilter titleFilter = TitleFilter.fromString(filter);
-        List<Entry> entries = documentParser.getEntries(numberOfEntries);
+        List<Entry> entries = documentParser.getEntries(limit);
         List<Entry> filteredEntries;
         switch (titleFilter) {
             case LONG:
@@ -32,18 +31,18 @@ public class WebCrawlerServiceImpl implements WebCrawlerService {
                         .filter(WebCrawlerServiceImpl::filterLongTitles)
                         .sorted(WebCrawlerServiceImpl::orderByNumberOfComments)
                         .toList();
-                usageDataService.saveUsageData(filter, numberOfEntries, filteredEntries.size());
+                usageDataService.saveUsageData(limit, filter, titleFilter, filteredEntries.size());
                 return filteredEntries;
             case SHORT:
                 filteredEntries = entries.stream()
                         .filter(WebCrawlerServiceImpl::filterShortTitles)
                         .sorted(WebCrawlerServiceImpl::orderByPoints)
                         .toList();
-                usageDataService.saveUsageData(filter, numberOfEntries, filteredEntries.size());
+                usageDataService.saveUsageData(limit, filter, titleFilter, filteredEntries.size());
                 return filteredEntries;
             case NONE:
             default:
-                usageDataService.saveUsageData(filter, numberOfEntries, entries.size());
+                usageDataService.saveUsageData(limit, filter, titleFilter, entries.size());
                 return entries;
         }
     }

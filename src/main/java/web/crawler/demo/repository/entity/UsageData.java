@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,6 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import web.crawler.demo.domain.TitleFilter;
 
 @Entity
 @Table(name = "usage_data", schema = "metrics", indexes = {
@@ -40,12 +43,16 @@ public class UsageData {
     @Column(name = "timestamp", nullable = false)
     LocalDateTime timestamp;
 
-    @Column(name = "title_filter")
-    String titleFilter;
+    @Column(name = "input_limit")
+    Integer inputLimit;
 
-    @Column(name = "desired_entries")
-    Integer desiredEntries;
+    @Column(name = "input_filter")
+    String inputFilter;
 
-    @Column(name = "found_entries", nullable = false)
-    Integer foundEntries;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "applied_filter", nullable = false)
+    TitleFilter appliedFilter;
+
+    @Column(name = "result_count", nullable = false)
+    Integer resultCount;
 }

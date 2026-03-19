@@ -36,14 +36,14 @@ class WebCrawlerServiceImplTest {
     void shouldGetUnfilteredEntriesForAGivenInput() {
         when(documentParser.getEntries(5)).thenReturn(MockData.ENTRY_LIST_WITH_5_ITEMS);
 
-        List<Entry> result = webCrawlerService.getEntries(null, 5);
+        List<Entry> result = webCrawlerService.getEntries(5, null);
 
         assertNotNull(result);
         assertEquals(5, result.size());
 
         when(documentParser.getEntries(10)).thenReturn(MockData.ENTRY_LIST_WITH_10_ITEMS);
 
-        List<Entry> result2 = webCrawlerService.getEntries(null, 10);
+        List<Entry> result2 = webCrawlerService.getEntries(10, null);
 
         assertNotNull(result2);
         assertEquals(10, result2.size());
@@ -60,7 +60,7 @@ class WebCrawlerServiceImplTest {
     void shouldGetLongTitleEntriesForAGivenInput() {
         when(documentParser.getEntries(anyInt())).thenReturn(MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES);
 
-        List<Entry> result = webCrawlerService.getEntries("long", 5);
+        List<Entry> result = webCrawlerService.getEntries(5, "long");
 
         assertNotNull(result);
         result.forEach(entry -> assertTrue(entry.countWordsInTitle() > 5,
@@ -72,7 +72,7 @@ class WebCrawlerServiceImplTest {
     void shouldFilterShortTitlesGivenValidInput() {
         when(documentParser.getEntries(anyInt())).thenReturn(MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES);
 
-        List<Entry> result = webCrawlerService.getEntries("short", 5);
+        List<Entry> result = webCrawlerService.getEntries(5, "short");
 
         assertNotNull(result);
         result.forEach(entry -> assertTrue(entry.countWordsInTitle() <= 5,
@@ -84,7 +84,7 @@ class WebCrawlerServiceImplTest {
     void shouldOrderByNumberOfCommentsWhenFilteringLongEntries() {
         when(documentParser.getEntries(anyInt())).thenReturn(MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES);
 
-        List<Entry> result = webCrawlerService.getEntries("long", 5);
+        List<Entry> result = webCrawlerService.getEntries(5, "long");
 
         assertNotNull(result);
         result.stream().reduce((e1, e2) -> {
@@ -100,7 +100,7 @@ class WebCrawlerServiceImplTest {
     void shouldOrderByPointsWhenFilteringShortEntries() {
         when(documentParser.getEntries(anyInt())).thenReturn(MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES);
 
-        List<Entry> result = webCrawlerService.getEntries("short", 5);
+        List<Entry> result = webCrawlerService.getEntries(5, "short");
 
         result.stream().reduce((e1, e2) -> {
             assertTrue(e1.getPoints() >= e2.getPoints(),

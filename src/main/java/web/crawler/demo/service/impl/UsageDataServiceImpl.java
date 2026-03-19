@@ -20,13 +20,15 @@ public class UsageDataServiceImpl implements UsageDataService {
 
     @Override
     @SuppressWarnings("null")
-    public void saveUsageData(String filter, Integer desiredEntries, Integer foundEntries) {
+    public void saveUsageData(Integer inputLimit, String inputFilter,
+            TitleFilter appliedFilter, Integer resultCount) {
         try {
             UsageData entity = UsageData.builder()
                     .timestamp(LocalDateTime.now())
-                    .titleFilter(filter)
-                    .desiredEntries(desiredEntries)
-                    .foundEntries(foundEntries)
+                    .inputLimit(inputLimit)
+                    .inputFilter(inputFilter)
+                    .appliedFilter(appliedFilter)
+                    .resultCount(resultCount)
                     .build();
             usageDataRepository.save(entity);
         } catch (Exception e) {

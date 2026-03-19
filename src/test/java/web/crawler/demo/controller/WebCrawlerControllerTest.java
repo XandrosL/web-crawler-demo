@@ -61,7 +61,7 @@ class WebCrawlerControllerTest {
 
     @Test
     void shouldReturn200WhenGettingLongEntries() throws Exception {
-        when(webCrawlerService.getEntries(anyString(), any()))
+        when(webCrawlerService.getEntries(any(), anyString()))
                 .thenReturn(MockData.ENTRY_LIST_WITH_LONG_TITLES);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
@@ -79,7 +79,7 @@ class WebCrawlerControllerTest {
 
     @Test
     void shouldReturn200WhenGettingShortEntries() throws Exception {
-        when(webCrawlerService.getEntries(anyString(), any()))
+        when(webCrawlerService.getEntries(any(), anyString()))
                 .thenReturn(MockData.ENTRY_LIST_WITH_SHORT_TITLES);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
@@ -97,7 +97,7 @@ class WebCrawlerControllerTest {
 
     @Test
     void shouldReturn200WhenGettingANumberOfEntries() throws Exception {
-        when(webCrawlerService.getEntries(any(), anyInt()))
+        when(webCrawlerService.getEntries(anyInt(), any()))
                 .thenReturn(MockData.ENTRY_LIST_WITH_5_ITEMS);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")

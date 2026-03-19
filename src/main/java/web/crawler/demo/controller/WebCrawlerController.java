@@ -21,9 +21,9 @@ public class WebCrawlerController {
 
     @GetMapping
     public ResponseEntity<List<Entry>> getEntries(
-            @RequestParam(name = "limit", required = false) Integer numberOfEntries,
+            @RequestParam(name = "limit", required = false) Integer limit,
             @RequestParam(name = "filter", required = false) String filter) {
 
-        return ResponseEntity.ok(webCrawlerService.getEntries(filter, numberOfEntries));
+        return ResponseEntity.ok(webCrawlerService.getEntries(limit, filter));
     }
 }
