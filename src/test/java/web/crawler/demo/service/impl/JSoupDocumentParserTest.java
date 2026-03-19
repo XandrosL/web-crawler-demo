@@ -30,11 +30,11 @@ import web.crawler.demo.service.client.JSoupClient;
 @Slf4j
 class JSoupDocumentParserTest {
 
-    @Mock
-    private JSoupClient jSoupClient;
-
     @InjectMocks
     private JSoupDocumentParser webClient;
+    
+    @Mock
+    private JSoupClient jSoupClient;
 
     @BeforeEach
     void setUp() {

@@ -1,7 +1,6 @@
 package web.crawler.demo.util;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import web.crawler.demo.domain.Entry;
 
@@ -41,11 +40,18 @@ public class MockData {
                         ENTRY_WITH_5_WORDS,
                         ENTRY_WITH_10_WORDS);
 
+        public static final Entry ENTRY_WITH_4_WORDS_V2 = Entry.builder()
+                        .number(15)
+                        .title("Machine Payments Protocol (MPP)")
+                        .points(120 )
+                        .comments( 64)
+                        .build();
+
         public static final Entry ENTRY_1 = Entry.builder()
-                        .number(1)
-                        .title("A Decade of Slug")
-                        .points(399)
-                        .comments(34)
+                        .number(8)
+                        .title("Review: Samsung Galaxy S26 Ultra")
+                        .points(43)
+                        .comments(32)
                         .build();
 
         public static final Entry ENTRY_2 = Entry.builder()
@@ -76,8 +82,16 @@ public class MockData {
                         .comments(7)
                         .build();
 
-        public static final Stream<Entry> ENTRY_STREAM = Stream.of(
+        public static final List<Entry> ENTRY_LIST_WITH_5_ITEMS = List.of(
                         ENTRY_1, ENTRY_2, ENTRY_3, ENTRY_4, ENTRY_5);
+
+        public static final List<Entry> ENTRY_LIST_WITH_10_ITEMS = List.of(
+                        ENTRY_1, ENTRY_2, ENTRY_3, ENTRY_4, ENTRY_5,
+                        ENTRY_WITH_5_WORDS,
+                        ENTRY_WITH_12_WORDS,
+                        ENTRY_WITH_10_WORDS,
+                        ENTRY_WITH_4_WORDS,
+                        ENTRY_WITH_4_WORDS_V2);
 
         private MockData() {
                 throw new IllegalArgumentException("Utility class");
