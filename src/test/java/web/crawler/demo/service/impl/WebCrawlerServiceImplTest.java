@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import lombok.extern.slf4j.Slf4j;
 import web.crawler.demo.domain.Entry;
+import web.crawler.demo.domain.TitleFilter;
 import web.crawler.demo.service.DocumentParser;
 import web.crawler.demo.util.MockData;
 
@@ -32,19 +33,19 @@ class WebCrawlerServiceImplTest {
     void shouldGetUnfilteredEntriesForAGivenInput() {
         Mockito.when(documentParser.getEntries(5)).thenReturn(MockData.ENTRY_LIST_WITH_5_ITEMS);
 
-        List<Entry> result = webCrawlerService.getUnfilteredEntries(5);
+        List<Entry> result = webCrawlerService.getEntries(TitleFilter.NONE, 5);
 
         assertNotNull(result);
         assertEquals(5, result.size());
 
         Mockito.when(documentParser.getEntries(10)).thenReturn(MockData.ENTRY_LIST_WITH_10_ITEMS);
 
-        List<Entry> result2 = webCrawlerService.getUnfilteredEntries(10);
+        List<Entry> result2 = webCrawlerService.getEntries(TitleFilter.NONE, 10);
 
         assertNotNull(result2);
         assertEquals(10, result2.size());
 
-        List<Entry> result3 = webCrawlerService.getUnfilteredEntries(0);
+        List<Entry> result3 = webCrawlerService.getEntries(TitleFilter.NONE, 0);
 
         assertNotNull(result3);
         assertEquals(0, result3.size());
@@ -54,7 +55,7 @@ class WebCrawlerServiceImplTest {
     void shouldGetLongTitleEntriesForAGivenInput() {
         Mockito.when(documentParser.getEntries(anyInt())).thenReturn(MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES);
 
-        List<Entry> result = webCrawlerService.getLongEntries(5);
+        List<Entry> result = webCrawlerService.getEntries(TitleFilter.LONG, 5);
 
         assertNotNull(result);
         result.forEach(entry -> assertTrue(entry.countWordsInTitle() > 5,
@@ -66,7 +67,7 @@ class WebCrawlerServiceImplTest {
     void shouldFilterShortTitlesGivenValidInput() {
         Mockito.when(documentParser.getEntries(anyInt())).thenReturn(MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES);
 
-        List<Entry> result = webCrawlerService.getShortEntries(5);
+        List<Entry> result = webCrawlerService.getEntries(TitleFilter.SHORT, 5);
 
         assertNotNull(result);
         result.forEach(entry -> assertTrue(entry.countWordsInTitle() <= 5,
@@ -78,7 +79,7 @@ class WebCrawlerServiceImplTest {
     void shouldOrderByNumberOfCommentsWhenFilteringLongEntries() {
         Mockito.when(documentParser.getEntries(anyInt())).thenReturn(MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES);
 
-        List<Entry> result = webCrawlerService.getLongEntries(5);
+        List<Entry> result = webCrawlerService.getEntries(TitleFilter.LONG, 5);
 
         assertNotNull(result);
         result.stream().reduce((e1, e2) -> {
@@ -94,7 +95,7 @@ class WebCrawlerServiceImplTest {
     void shouldOrderByPointsWhenFilteringShortEntries() {
         Mockito.when(documentParser.getEntries(anyInt())).thenReturn(MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES);
 
-        List<Entry> result = webCrawlerService.getShortEntries(5);
+        List<Entry> result = webCrawlerService.getEntries(TitleFilter.SHORT, 5);
 
         result.stream().reduce((e1, e2) -> {
             assertTrue(e1.getPoints() >= e2.getPoints(),

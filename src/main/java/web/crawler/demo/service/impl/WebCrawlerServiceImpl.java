@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import web.crawler.demo.domain.Entry;
+import web.crawler.demo.domain.TitleFilter;
 import web.crawler.demo.service.DocumentParser;
+import web.crawler.demo.service.UsageDataService;
 import web.crawler.demo.service.WebCrawlerService;
 
 @Service
@@ -16,26 +18,27 @@ import web.crawler.demo.service.WebCrawlerService;
 public class WebCrawlerServiceImpl implements WebCrawlerService {
 
     private final DocumentParser documentParser;
+    private final UsageDataService usageDataService;
 
     @Override
-    public List<Entry> getUnfilteredEntries(int numberOfEntries) {
-        return documentParser.getEntries(numberOfEntries);
-    }
-
-    @Override
-    public List<Entry> getLongEntries(int numberOfEntries) {
-        return documentParser.getEntries(numberOfEntries).stream()
-                .filter(WebCrawlerServiceImpl::filterLongTitles)
-                .sorted(WebCrawlerServiceImpl::orderByNumberOfComments)
-                .toList();
-    }
-
-    @Override
-    public List<Entry> getShortEntries(int numberOfEntries) {
-        return documentParser.getEntries(numberOfEntries).stream()
-                .filter(WebCrawlerServiceImpl::filterShortTitles)
-                .sorted(WebCrawlerServiceImpl::orderByPoints)
-                .toList();
+    public List<Entry> getEntries(TitleFilter titleFilter, int numberOfEntries) {
+        List<Entry> entries = documentParser.getEntries(numberOfEntries);
+        usageDataService.saveUsageData(titleFilter, numberOfEntries, entries.size());
+        switch (titleFilter) {
+            case LONG:
+                return entries.stream()
+                        .filter(WebCrawlerServiceImpl::filterLongTitles)
+                        .sorted(WebCrawlerServiceImpl::orderByNumberOfComments)
+                        .toList();
+            case SHORT:
+                return entries.stream()
+                        .filter(WebCrawlerServiceImpl::filterShortTitles)
+                        .sorted(WebCrawlerServiceImpl::orderByPoints)
+                        .toList();
+            case NONE:
+            default:
+                return entries;
+        }
     }
 
     private static boolean filterLongTitles(Entry entry) {
@@ -53,5 +56,4 @@ public class WebCrawlerServiceImpl implements WebCrawlerService {
     private static int orderByPoints(Entry entry1, Entry entry2) {
         return Integer.compare(entry2.getPoints(), entry1.getPoints());
     }
-
 }

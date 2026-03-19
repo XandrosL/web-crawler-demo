@@ -26,14 +26,6 @@ public class WebCrawlerController {
             @RequestParam(name = "filter", defaultValue = "none") String filter) {
 
         TitleFilter titleFilter = TitleFilter.fromString(filter);
-        switch (titleFilter) {
-            case LONG:
-                return ResponseEntity.ok(webCrawlerService.getLongEntries(numberOfEntries));
-            case SHORT:
-                return ResponseEntity.ok(webCrawlerService.getShortEntries(numberOfEntries));
-            case NONE:
-            default:
-                return ResponseEntity.ok(webCrawlerService.getUnfilteredEntries(numberOfEntries));
-        }
+        return ResponseEntity.ok(webCrawlerService.getEntries(titleFilter, numberOfEntries));
     }
 }
