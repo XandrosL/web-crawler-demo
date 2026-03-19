@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -42,6 +44,7 @@ public class UsageData {
     LocalDateTime timestamp;
 
     @Column(name = "title_filter", nullable = false)
+    @Enumerated(EnumType.STRING)
     TitleFilter titleFilter;
 
     @Column(name = "desired_entries")

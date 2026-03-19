@@ -1,7 +1,10 @@
 package web.crawler.demo.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,9 +35,11 @@ class UsageDataServiceImplTest {
         when(usageDataRepository.save(any(UsageData.class)))
                 .thenReturn(new UsageData());
 
-        usageDataService.saveUsageData(TitleFilter.NONE, 10, 10);
+        usageDataService.saveUsageData(TitleFilter.NONE, 30, 10);
 
-        verify(usageDataRepository, times(1)).save(any(UsageData.class));
+        verify(usageDataRepository, times(1))
+                .save(Mockito.argThat(usageData -> usageData.getTitleFilter() == TitleFilter.NONE
+                        && usageData.getDesiredEntries() == 30 && usageData.getFoundEntries() == 10));
     }
 
     @Test

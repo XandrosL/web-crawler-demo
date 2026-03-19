@@ -1,7 +1,7 @@
 package web.crawler.demo.domain;
 
 public enum TitleFilter {
-    LONG, SHORT, NONE;
+    NONE, LONG, SHORT;
 
     public static TitleFilter fromString(String filter) {
         try {

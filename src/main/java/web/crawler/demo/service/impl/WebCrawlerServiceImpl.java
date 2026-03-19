@@ -23,20 +23,25 @@ public class WebCrawlerServiceImpl implements WebCrawlerService {
     @Override
     public List<Entry> getEntries(TitleFilter titleFilter, int numberOfEntries) {
         List<Entry> entries = documentParser.getEntries(numberOfEntries);
-        usageDataService.saveUsageData(titleFilter, numberOfEntries, entries.size());
+        List<Entry> filteredEntries;
         switch (titleFilter) {
             case LONG:
-                return entries.stream()
+                filteredEntries = entries.stream()
                         .filter(WebCrawlerServiceImpl::filterLongTitles)
                         .sorted(WebCrawlerServiceImpl::orderByNumberOfComments)
                         .toList();
+                usageDataService.saveUsageData(titleFilter, numberOfEntries, filteredEntries.size());
+                return filteredEntries;
             case SHORT:
-                return entries.stream()
+                filteredEntries = entries.stream()
                         .filter(WebCrawlerServiceImpl::filterShortTitles)
                         .sorted(WebCrawlerServiceImpl::orderByPoints)
                         .toList();
+                usageDataService.saveUsageData(titleFilter, numberOfEntries, filteredEntries.size());
+                return filteredEntries;
             case NONE:
             default:
+                usageDataService.saveUsageData(titleFilter, numberOfEntries, entries.size());
                 return entries;
         }
     }
