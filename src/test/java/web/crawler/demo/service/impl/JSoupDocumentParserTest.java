@@ -82,4 +82,21 @@ class JSoupDocumentParserTest {
         assertEquals(6, entryWithNoComments.getPoints());
         assertEquals(0, entryWithNoComments.getComments());
     }
+
+    @Test
+    void shouldGetEntriesWhenInputIsHigherThan30() throws Exception {
+
+        List<Entry> result = webClient.getEntries(31);
+
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(30, result.size());
+        Entry firstEntry = result.get(0);
+        log.debug(new ObjectMapper().writeValueAsString(firstEntry));
+        assertEquals(1, firstEntry.getNumber());
+        assertEquals("Warranty Void If Regenerated", firstEntry.getTitle());
+        assertEquals(49, firstEntry.getPoints());
+        assertEquals(37, firstEntry.getComments());
+    }
+
 }

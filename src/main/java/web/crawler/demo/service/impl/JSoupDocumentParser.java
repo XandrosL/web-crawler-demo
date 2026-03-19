@@ -46,7 +46,7 @@ public class JSoupDocumentParser implements DocumentParser {
                     .points(extractScore(subline))
                     .comments(extractComments(subline))
                     .build();
-        }).toList();
+        }).filter(entry -> entry.getNumber() != null).toList();
     }
 
     private Element extractSubmission(List<Element> elements) {
