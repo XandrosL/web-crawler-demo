@@ -3,10 +3,8 @@ package web.crawler.demo.service.impl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 
-import java.nio.file.Path;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -32,7 +30,7 @@ class JSoupDocumentParserTest {
 
     @InjectMocks
     private JSoupDocumentParser webClient;
-    
+
     @Mock
     private JSoupClient jSoupClient;
 
@@ -47,11 +45,10 @@ class JSoupDocumentParserTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {5, 10, 30})
+    @ValueSource(ints = { 5, 10, 30 })
     void shouldGetEntriesWhenConnectionIsSuccessful(int numberOfEntries) throws Exception {
 
         List<Entry> result = webClient.getEntries(numberOfEntries);

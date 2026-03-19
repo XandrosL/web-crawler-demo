@@ -6,6 +6,13 @@ import web.crawler.demo.domain.Entry;
 
 public class MockData {
 
+        public static final Entry ENTRY_WITH_1_WORD = Entry.builder()
+                        .number(2)
+                        .title("OpenRocket")
+                        .points(333)
+                        .comments(67)
+                        .build();
+
         public static final Entry ENTRY_WITH_5_WORDS = Entry.builder()
                         .number(11)
                         .title("This is - a self-explained example")
@@ -35,6 +42,7 @@ public class MockData {
                         .build();
 
         public static final List<Entry> ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES = List.of(
+                        ENTRY_WITH_1_WORD,
                         ENTRY_WITH_12_WORDS,
                         ENTRY_WITH_4_WORDS,
                         ENTRY_WITH_5_WORDS,
@@ -43,8 +51,8 @@ public class MockData {
         public static final Entry ENTRY_WITH_4_WORDS_V2 = Entry.builder()
                         .number(15)
                         .title("Machine Payments Protocol (MPP)")
-                        .points(120 )
-                        .comments( 64)
+                        .points(120)
+                        .comments(64)
                         .build();
 
         public static final Entry ENTRY_1 = Entry.builder()
