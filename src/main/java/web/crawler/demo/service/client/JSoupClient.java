@@ -7,7 +7,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
-import web.crawler.demo.exception.DocumentParserException;
+import web.crawler.demo.exception.JSoupClientConnectException;
 
 @Component
 public class JSoupClient {
@@ -18,8 +18,9 @@ public class JSoupClient {
             connection.timeout(5000);
             return connection.get();
         } catch (IOException ex) {
-            throw new DocumentParserException(
-                    "Could not GET the given URL: " + url + " - Error message is: " + ex.getLocalizedMessage(),
+            throw new JSoupClientConnectException(
+                    "Could not GET the given URL: " + url + " - Cause is: " + ex.getCause()
+                            + " - Please contact your administrator.",
                     ex.getCause());
         }
     }

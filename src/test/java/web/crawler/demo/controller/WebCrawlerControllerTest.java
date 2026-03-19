@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.net.ConnectException;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.ProblemDetail;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -27,6 +29,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import web.crawler.demo.domain.Entry;
+import web.crawler.demo.exception.JSoupClientConnectException;
 import web.crawler.demo.service.WebCrawlerService;
 import web.crawler.demo.util.MockData;
 
@@ -113,6 +116,25 @@ class WebCrawlerControllerTest {
         entries.forEach(validateEntry());
         assertEquals(5, entries.size());
     }
+
+    @Test
+    void shouldReturn502WhenGettingConnectException() throws Exception {
+        when(webCrawlerService.getEntries(anyInt(), any()))
+                .thenThrow(new JSoupClientConnectException("Connect Exception"));
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
+                .param("limit", "5"))
+                .andExpect(status().isBadGateway())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON_VALUE))
+                .andReturn();
+
+        assertNotNull(result);
+        String content = result.getResponse().getContentAsString();
+        ProblemDetail problemDetail = objectMapper.readValue(content, ProblemDetail.class);
+        assertNotNull(problemDetail);
+        assertEquals(502, problemDetail.getStatus());
+    }
+
 
     private Consumer<? super Entry> validateEntry() {
         return entry -> {
