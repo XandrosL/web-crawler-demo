@@ -28,7 +28,10 @@ public class JSoupDocumentParser implements DocumentParser {
     private final AppProperties appProperties;
     private final JSoupClient jsoupClient;
 
-    public List<Entry> getEntries(int numberOfEntries) {
+    public List<Entry> getEntries(Integer numberOfEntries) {
+        if (numberOfEntries == null || numberOfEntries < 0) {
+            numberOfEntries = 30;
+        }
         Document document = jsoupClient.getDocument(appProperties.getTargetUrl());
         log.debug("Document charset: {}", document.outputSettings().charset());
         Elements rows = document.getElementById("bigbox").children().select("tr");

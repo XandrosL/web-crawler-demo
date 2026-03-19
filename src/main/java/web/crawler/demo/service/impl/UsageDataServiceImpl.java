@@ -20,11 +20,11 @@ public class UsageDataServiceImpl implements UsageDataService {
 
     @Override
     @SuppressWarnings("null")
-    public void saveUsageData(TitleFilter titleFilter, int desiredEntries, int foundEntries) {
+    public void saveUsageData(String filter, Integer desiredEntries, Integer foundEntries) {
         try {
             UsageData entity = UsageData.builder()
                     .timestamp(LocalDateTime.now())
-                    .titleFilter(titleFilter)
+                    .titleFilter(filter)
                     .desiredEntries(desiredEntries)
                     .foundEntries(foundEntries)
                     .build();

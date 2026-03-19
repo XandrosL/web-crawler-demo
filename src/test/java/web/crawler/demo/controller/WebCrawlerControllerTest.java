@@ -1,9 +1,11 @@
 package web.crawler.demo.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,7 +27,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import web.crawler.demo.domain.Entry;
-import web.crawler.demo.domain.TitleFilter;
 import web.crawler.demo.service.WebCrawlerService;
 import web.crawler.demo.util.MockData;
 
@@ -43,7 +44,7 @@ class WebCrawlerControllerTest {
 
     @Test
     void shouldReturn200WhenGettingUnfilteredEntries() throws Exception {
-        when(webCrawlerService.getEntries(any(TitleFilter.class), anyInt()))
+        when(webCrawlerService.getEntries(any(), any()))
                 .thenReturn(MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries"))
@@ -60,7 +61,7 @@ class WebCrawlerControllerTest {
 
     @Test
     void shouldReturn200WhenGettingLongEntries() throws Exception {
-        when(webCrawlerService.getEntries(any(TitleFilter.class), anyInt()))
+        when(webCrawlerService.getEntries(anyString(), any()))
                 .thenReturn(MockData.ENTRY_LIST_WITH_LONG_TITLES);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
@@ -78,7 +79,7 @@ class WebCrawlerControllerTest {
 
     @Test
     void shouldReturn200WhenGettingShortEntries() throws Exception {
-        when(webCrawlerService.getEntries(any(TitleFilter.class), anyInt()))
+        when(webCrawlerService.getEntries(anyString(), any()))
                 .thenReturn(MockData.ENTRY_LIST_WITH_SHORT_TITLES);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
@@ -92,6 +93,25 @@ class WebCrawlerControllerTest {
         List<Entry> entries = objectMapper.readValue(content, new TypeReference<List<Entry>>() {
         });
         entries.forEach(validateEntry());
+    }
+
+    @Test
+    void shouldReturn200WhenGettingANumberOfEntries() throws Exception {
+        when(webCrawlerService.getEntries(any(), anyInt()))
+                .thenReturn(MockData.ENTRY_LIST_WITH_5_ITEMS);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
+                .param("limit", "5"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+                .andReturn();
+
+        assertNotNull(result);
+        String content = result.getResponse().getContentAsString();
+        List<Entry> entries = objectMapper.readValue(content, new TypeReference<List<Entry>>() {
+        });
+        entries.forEach(validateEntry());
+        assertEquals(5, entries.size());
     }
 
     private Consumer<? super Entry> validateEntry() {

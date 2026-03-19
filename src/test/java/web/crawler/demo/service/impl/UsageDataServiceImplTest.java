@@ -15,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 
-import web.crawler.demo.domain.TitleFilter;
 import web.crawler.demo.repository.UsageDataRepository;
 import web.crawler.demo.repository.entity.UsageData;
 
@@ -23,34 +22,35 @@ import web.crawler.demo.repository.entity.UsageData;
 @ExtendWith(OutputCaptureExtension.class)
 class UsageDataServiceImplTest {
 
-    @InjectMocks
-    private UsageDataServiceImpl usageDataService;
+        @InjectMocks
+        private UsageDataServiceImpl usageDataService;
 
-    @Mock
-    private UsageDataRepository usageDataRepository;
+        @Mock
+        private UsageDataRepository usageDataRepository;
 
-    @Test
-    @SuppressWarnings("null")
-    void shouldSaveUsageDataInRepositoryGivenValidInput() {
-        when(usageDataRepository.save(any(UsageData.class)))
-                .thenReturn(new UsageData());
+        @Test
+        @SuppressWarnings("null")
+        void shouldSaveUsageDataInRepositoryGivenValidInput() {
+                when(usageDataRepository.save(any(UsageData.class)))
+                                .thenReturn(new UsageData());
 
-        usageDataService.saveUsageData(TitleFilter.NONE, 30, 10);
+                usageDataService.saveUsageData(null, 30, 10);
 
-        verify(usageDataRepository, times(1))
-                .save(Mockito.argThat(usageData -> usageData.getTitleFilter() == TitleFilter.NONE
-                        && usageData.getDesiredEntries() == 30 && usageData.getFoundEntries() == 10));
-    }
+                verify(usageDataRepository, times(1))
+                                .save(Mockito.argThat(usageData -> usageData.getTitleFilter() == null
+                                                && usageData.getDesiredEntries() == 30
+                                                && usageData.getFoundEntries() == 10));
+        }
 
-    @Test
-    @SuppressWarnings("null")
-    void shouldLogErrorGivenDatabaseError(CapturedOutput output) {
-        when(usageDataRepository.save(any(UsageData.class)))
-                .thenThrow(new RuntimeException("Database error"));
+        @Test
+        @SuppressWarnings("null")
+        void shouldLogErrorGivenDatabaseError(CapturedOutput output) {
+                when(usageDataRepository.save(any(UsageData.class)))
+                                .thenThrow(new RuntimeException("Database error"));
 
-        usageDataService.saveUsageData(TitleFilter.NONE, 10, 10);
+                usageDataService.saveUsageData(null, 10, 10);
 
-        verify(usageDataRepository, times(1)).save(any(UsageData.class));
-        assertTrue(output.toString().contains("ERROR"));
-    }
+                verify(usageDataRepository, times(1)).save(any(UsageData.class));
+                assertTrue(output.toString().contains("ERROR"));
+        }
 }

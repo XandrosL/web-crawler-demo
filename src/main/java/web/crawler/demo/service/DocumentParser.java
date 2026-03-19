@@ -6,5 +6,5 @@ import web.crawler.demo.domain.Entry;
 
 public interface DocumentParser {
 
-    List<Entry> getEntries(int numberOfEntries);
+    List<Entry> getEntries(Integer numberOfEntries);
 }

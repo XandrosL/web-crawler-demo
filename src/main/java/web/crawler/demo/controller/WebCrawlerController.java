@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import web.crawler.demo.domain.Entry;
-import web.crawler.demo.domain.TitleFilter;
 import web.crawler.demo.service.WebCrawlerService;
 
 @RestController
@@ -22,10 +21,9 @@ public class WebCrawlerController {
 
     @GetMapping
     public ResponseEntity<List<Entry>> getEntries(
-            @RequestParam(name = "limit", defaultValue = "30") int numberOfEntries,
-            @RequestParam(name = "filter", defaultValue = "none") String filter) {
+            @RequestParam(name = "limit", required = false) Integer numberOfEntries,
+            @RequestParam(name = "filter", required = false) String filter) {
 
-        TitleFilter titleFilter = TitleFilter.fromString(filter);
-        return ResponseEntity.ok(webCrawlerService.getEntries(titleFilter, numberOfEntries));
+        return ResponseEntity.ok(webCrawlerService.getEntries(filter, numberOfEntries));
     }
 }
