@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.net.ConnectException;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -37,113 +36,130 @@ import web.crawler.demo.util.MockData;
 @AutoConfigureMockMvc
 class WebCrawlerControllerTest {
 
-    @MockitoBean
-    private WebCrawlerService webCrawlerService;
+        @MockitoBean
+        private WebCrawlerService webCrawlerService;
 
-    @Autowired
-    private MockMvc mockMvc;
+        @Autowired
+        private MockMvc mockMvc;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+        private ObjectMapper objectMapper = new ObjectMapper();
 
-    @Test
-    void shouldReturn200WhenGettingUnfilteredEntries() throws Exception {
-        when(webCrawlerService.getEntries(any(), any()))
-                .thenReturn(MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES);
+        @Test
+        void shouldReturn200WhenGettingUnfilteredEntries() throws Exception {
+                when(webCrawlerService.getEntries(any(), any()))
+                                .thenReturn(MockData.ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+                MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries"))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+                                .andReturn();
 
-        assertNotNull(result);
-        String content = result.getResponse().getContentAsString();
-        List<Entry> entries = objectMapper.readValue(content, new TypeReference<List<Entry>>() {
-        });
-        entries.forEach(validateEntry());
-    }
+                assertNotNull(result);
+                String content = result.getResponse().getContentAsString();
+                List<Entry> entries = objectMapper.readValue(content, new TypeReference<List<Entry>>() {
+                });
+                entries.forEach(validateEntry());
+        }
 
-    @Test
-    void shouldReturn200WhenGettingLongEntries() throws Exception {
-        when(webCrawlerService.getEntries(any(), anyString()))
-                .thenReturn(MockData.ENTRY_LIST_WITH_LONG_TITLES);
+        @Test
+        void shouldReturn200WhenGettingLongEntries() throws Exception {
+                when(webCrawlerService.getEntries(any(), anyString()))
+                                .thenReturn(MockData.ENTRY_LIST_WITH_LONG_TITLES);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
-                .param("filter", "long"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+                MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
+                                .param("filter", "long"))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+                                .andReturn();
 
-        assertNotNull(result);
-        String content = result.getResponse().getContentAsString();
-        List<Entry> entries = objectMapper.readValue(content, new TypeReference<List<Entry>>() {
-        });
-        entries.forEach(validateEntry());
-    }
+                assertNotNull(result);
+                String content = result.getResponse().getContentAsString();
+                List<Entry> entries = objectMapper.readValue(content, new TypeReference<List<Entry>>() {
+                });
+                entries.forEach(validateEntry());
+        }
 
-    @Test
-    void shouldReturn200WhenGettingShortEntries() throws Exception {
-        when(webCrawlerService.getEntries(any(), anyString()))
-                .thenReturn(MockData.ENTRY_LIST_WITH_SHORT_TITLES);
+        @Test
+        void shouldReturn200WhenGettingShortEntries() throws Exception {
+                when(webCrawlerService.getEntries(any(), anyString()))
+                                .thenReturn(MockData.ENTRY_LIST_WITH_SHORT_TITLES);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
-                .param("filter", "short"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+                MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
+                                .param("filter", "short"))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+                                .andReturn();
 
-        assertNotNull(result);
-        String content = result.getResponse().getContentAsString();
-        List<Entry> entries = objectMapper.readValue(content, new TypeReference<List<Entry>>() {
-        });
-        entries.forEach(validateEntry());
-    }
+                assertNotNull(result);
+                String content = result.getResponse().getContentAsString();
+                List<Entry> entries = objectMapper.readValue(content, new TypeReference<List<Entry>>() {
+                });
+                entries.forEach(validateEntry());
+        }
 
-    @Test
-    void shouldReturn200WhenGettingANumberOfEntries() throws Exception {
-        when(webCrawlerService.getEntries(anyInt(), any()))
-                .thenReturn(MockData.ENTRY_LIST_WITH_5_ITEMS);
+        @Test
+        void shouldReturn200WhenGettingANumberOfEntries() throws Exception {
+                when(webCrawlerService.getEntries(anyInt(), any()))
+                                .thenReturn(MockData.ENTRY_LIST_WITH_5_ITEMS);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
-                .param("limit", "5"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
-                .andReturn();
+                MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
+                                .param("limit", "5"))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+                                .andReturn();
 
-        assertNotNull(result);
-        String content = result.getResponse().getContentAsString();
-        List<Entry> entries = objectMapper.readValue(content, new TypeReference<List<Entry>>() {
-        });
-        entries.forEach(validateEntry());
-        assertEquals(5, entries.size());
-    }
+                assertNotNull(result);
+                String content = result.getResponse().getContentAsString();
+                List<Entry> entries = objectMapper.readValue(content, new TypeReference<List<Entry>>() {
+                });
+                entries.forEach(validateEntry());
+                assertEquals(5, entries.size());
+        }
 
-    @Test
-    void shouldReturn502WhenGettingConnectException() throws Exception {
-        when(webCrawlerService.getEntries(anyInt(), any()))
-                .thenThrow(new JSoupClientConnectException("Connect Exception"));
+        @Test
+        void shouldReturn400WhenGettingInvalidInput() throws Exception {
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
-                .param("limit", "5"))
-                .andExpect(status().isBadGateway())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON_VALUE))
-                .andReturn();
+                MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
+                                .param("limit", "invalidValue"))
+                                .andExpect(status().isBadRequest())
+                                .andExpect(content()
+                                                .contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON_VALUE))
+                                .andReturn();
 
-        assertNotNull(result);
-        String content = result.getResponse().getContentAsString();
-        ProblemDetail problemDetail = objectMapper.readValue(content, ProblemDetail.class);
-        assertNotNull(problemDetail);
-        assertEquals(502, problemDetail.getStatus());
-    }
+                assertNotNull(result);
+                String content = result.getResponse().getContentAsString();
+                ProblemDetail problemDetail = objectMapper.readValue(content, ProblemDetail.class);
+                assertNotNull(problemDetail);
+                assertEquals(400, problemDetail.getStatus());
+        }
 
+        @Test
+        void shouldReturn502WhenGettingConnectException() throws Exception {
+                when(webCrawlerService.getEntries(anyInt(), any()))
+                                .thenThrow(new JSoupClientConnectException("Connect Exception"));
 
-    private Consumer<? super Entry> validateEntry() {
-        return entry -> {
-            assertNotNull(entry);
-            assertNotNull(entry.getNumber());
-            assertNotNull(entry.getTitle());
-            assertFalse(entry.getTitle().isEmpty());
-            assertNotNull(entry.getPoints());
-            assertNotNull(entry.getComments());
-        };
-    }
+                MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/entries")
+                                .param("limit", "5"))
+                                .andExpect(status().isBadGateway())
+                                .andExpect(content()
+                                                .contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON_VALUE))
+                                .andReturn();
+
+                assertNotNull(result);
+                String content = result.getResponse().getContentAsString();
+                ProblemDetail problemDetail = objectMapper.readValue(content, ProblemDetail.class);
+                assertNotNull(problemDetail);
+                assertEquals(502, problemDetail.getStatus());
+        }
+
+        private Consumer<? super Entry> validateEntry() {
+                return entry -> {
+                        assertNotNull(entry);
+                        assertNotNull(entry.getNumber());
+                        assertNotNull(entry.getTitle());
+                        assertFalse(entry.getTitle().isEmpty());
+                        assertNotNull(entry.getPoints());
+                        assertNotNull(entry.getComments());
+                };
+        }
 }
