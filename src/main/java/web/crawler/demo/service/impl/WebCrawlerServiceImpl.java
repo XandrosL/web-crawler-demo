@@ -39,11 +39,11 @@ public class WebCrawlerServiceImpl implements WebCrawlerService {
     }
 
     private static boolean filterLongTitles(Entry entry) {
-        return entry.countWordsInTitle() > 4;
+        return entry.countWordsInTitle() > 5;
     }
 
     private static boolean filterShortTitles(Entry entry) {
-        return entry.countWordsInTitle() <= 4;
+        return entry.countWordsInTitle() <= 5;
     }
 
     private static int orderByNumberOfComments(Entry entry1, Entry entry2) {

@@ -30,7 +30,7 @@ public class JSoupDocumentParser implements DocumentParser {
 
     public List<Entry> getEntries(int numberOfEntries) {
         Document document = jsoupClient.getDocument(appProperties.getTargetUrl());
-        log.info("Document charset: {}", document.outputSettings().charset());
+        log.debug("Document charset: {}", document.outputSettings().charset());
         Elements rows = document.getElementById("bigbox").children().select("tr");
 
         // Partition rows into groups of 3, as each entry in the html consists of

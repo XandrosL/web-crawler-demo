@@ -48,6 +48,15 @@ public class MockData {
                         ENTRY_WITH_5_WORDS,
                         ENTRY_WITH_10_WORDS);
 
+        public static final List<Entry> ENTRY_LIST_WITH_LONG_TITLES = List.of(
+                        ENTRY_WITH_10_WORDS,
+                        ENTRY_WITH_12_WORDS);
+
+        public static final List<Entry> ENTRY_LIST_WITH_SHORT_TITLES = List.of(
+                        ENTRY_WITH_4_WORDS,
+                        ENTRY_WITH_1_WORD,
+                        ENTRY_WITH_5_WORDS);
+
         public static final Entry ENTRY_WITH_4_WORDS_V2 = Entry.builder()
                         .number(15)
                         .title("Machine Payments Protocol (MPP)")

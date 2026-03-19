@@ -4,11 +4,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Entry {
@@ -18,7 +28,7 @@ public class Entry {
     Integer comments;
 
     public int countWordsInTitle() {
-        String cleanTitle = title.replaceAll("[^A-Za-z0-9\\s]", ""); //Ignore special, non-whitespace characters
+        String cleanTitle = title.replaceAll("[^A-Za-z0-9\\s]", ""); // Ignore special, non-whitespace characters
         Pattern pattern = Pattern.compile("\\b\\w+\\b"); // Count whole words
         Matcher matcher = pattern.matcher(cleanTitle);
         int count = 0;
