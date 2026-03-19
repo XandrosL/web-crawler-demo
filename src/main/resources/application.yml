@@ -1,4 +1,23 @@
 server:
   port: 8080
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;INIT=CREATE SCHEMA IF NOT EXISTS metrics
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: metrics
+        format_sql: true
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 application:
   target-url: https://news.ycombinator.com/
