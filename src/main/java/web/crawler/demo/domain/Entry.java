@@ -20,7 +20,7 @@ import lombok.experimental.FieldDefaults;
 public class Entry {
 
     private static final Pattern SPECIAL_NON_WHITESPACE_CHARS_PATTERN = Pattern.compile("[^A-Za-z0-9\\s]");
-    private static final Pattern WHOLE_WORDS_PATTERN = Pattern.compile("\\b\\w+\\b");
+    private static final Pattern SPACED_WORDS_PATTERN = Pattern.compile("\\b\\w+\\b");
 
     Integer number;
     String title;
@@ -29,7 +29,7 @@ public class Entry {
 
     public int countWordsInTitle() {
         String cleanTitle = SPECIAL_NON_WHITESPACE_CHARS_PATTERN.matcher(title).replaceAll("");
-        Matcher matcher = WHOLE_WORDS_PATTERN.matcher(cleanTitle);
+        Matcher matcher = SPACED_WORDS_PATTERN.matcher(cleanTitle);
         int count = 0;
         while (matcher.find()) {
             count++;
