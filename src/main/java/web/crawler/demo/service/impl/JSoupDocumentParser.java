@@ -25,6 +25,8 @@ import web.crawler.demo.service.client.JSoupClient;
 @Slf4j
 public class JSoupDocumentParser implements DocumentParser {
 
+    private static final Pattern DIGITS_PATTERN = Pattern.compile("\\d+");
+
     private final AppProperties appProperties;
     private final JSoupClient jsoupClient;
 
@@ -101,7 +103,7 @@ public class JSoupDocumentParser implements DocumentParser {
 
     private Function<String, Integer> extractDigits() {
         return text -> {
-            Matcher matcher = Pattern.compile("\\d+").matcher(text);
+            Matcher matcher = DIGITS_PATTERN.matcher(text);
             if (matcher.find()) {
                 return Integer.valueOf(matcher.group());
             } else {

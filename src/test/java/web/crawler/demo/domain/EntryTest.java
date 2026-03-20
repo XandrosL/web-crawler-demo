@@ -30,4 +30,34 @@ class EntryTest {
         
         assertEquals(10, result);
     }
+
+    @Test
+    void shouldCompareEntriesByNumberOfCommentsInDescendingOrder() {
+        int result = MockData.ENTRY_1.compareByDescendingNumberOfComments(MockData.ENTRY_2);
+        
+        assertEquals(1, result);
+
+        result = MockData.ENTRY_3.compareByDescendingNumberOfComments(MockData.ENTRY_4);
+        
+        assertEquals(-1, result);
+
+        result = MockData.ENTRY_3.compareByDescendingNumberOfComments(MockData.ENTRY_3);
+        
+        assertEquals(0, result);
+    }
+
+    @Test
+    void shouldCompareEntriesByPointsInDescendingOrder() {
+        int result = MockData.ENTRY_1.compareByDescendingPoints(MockData.ENTRY_2);
+        
+        assertEquals(1, result);
+
+        result = MockData.ENTRY_3.compareByDescendingPoints(MockData.ENTRY_4);
+        
+        assertEquals(-1, result);
+
+        result = MockData.ENTRY_3.compareByDescendingPoints(MockData.ENTRY_3);
+        
+        assertEquals(0, result);
+    }
 }

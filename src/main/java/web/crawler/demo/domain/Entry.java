@@ -18,19 +18,38 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Entry {
+
+    private static final Pattern SPECIAL_NON_WHITESPACE_CHARS_PATTERN = Pattern.compile("[^A-Za-z0-9\\s]");
+    private static final Pattern WHOLE_WORDS_PATTERN = Pattern.compile("\\b\\w+\\b");
+
     Integer number;
     String title;
     Integer points;
     Integer comments;
 
     public int countWordsInTitle() {
-        String cleanTitle = title.replaceAll("[^A-Za-z0-9\\s]", ""); // Ignore special, non-whitespace characters
-        Pattern pattern = Pattern.compile("\\b\\w+\\b"); // Count whole words
-        Matcher matcher = pattern.matcher(cleanTitle);
+        String cleanTitle = SPECIAL_NON_WHITESPACE_CHARS_PATTERN.matcher(title).replaceAll("");
+        Matcher matcher = WHOLE_WORDS_PATTERN.matcher(cleanTitle);
         int count = 0;
         while (matcher.find()) {
             count++;
         }
         return count;
+    }
+
+    public boolean hasLongTitle() {
+        return countWordsInTitle() > 5;
+    }
+
+    public boolean hasShortTitle() {
+        return countWordsInTitle() <= 5;
+    }
+
+    public int compareByDescendingNumberOfComments(Entry other) {
+        return Integer.compare(other.getComments(), this.getComments());
+    }
+
+    public int compareByDescendingPoints(Entry other) {
+        return Integer.compare(other.getPoints(), this.getPoints());
     }
 }

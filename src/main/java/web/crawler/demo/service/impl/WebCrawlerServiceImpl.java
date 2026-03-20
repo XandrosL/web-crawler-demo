@@ -28,15 +28,15 @@ public class WebCrawlerServiceImpl implements WebCrawlerService {
         switch (titleFilter) {
             case LONG:
                 filteredEntries = entries.stream()
-                        .filter(WebCrawlerServiceImpl::filterLongTitles)
-                        .sorted(WebCrawlerServiceImpl::orderByNumberOfComments)
+                        .filter(Entry::hasLongTitle)
+                        .sorted(Entry::compareByDescendingNumberOfComments)
                         .toList();
                 usageDataService.saveUsageData(limit, filter, titleFilter, filteredEntries.size());
                 return filteredEntries;
             case SHORT:
                 filteredEntries = entries.stream()
-                        .filter(WebCrawlerServiceImpl::filterShortTitles)
-                        .sorted(WebCrawlerServiceImpl::orderByPoints)
+                        .filter(Entry::hasShortTitle)
+                        .sorted(Entry::compareByDescendingPoints)
                         .toList();
                 usageDataService.saveUsageData(limit, filter, titleFilter, filteredEntries.size());
                 return filteredEntries;
@@ -45,21 +45,5 @@ public class WebCrawlerServiceImpl implements WebCrawlerService {
                 usageDataService.saveUsageData(limit, filter, titleFilter, entries.size());
                 return entries;
         }
-    }
-
-    private static boolean filterLongTitles(Entry entry) {
-        return entry.countWordsInTitle() > 5;
-    }
-
-    private static boolean filterShortTitles(Entry entry) {
-        return entry.countWordsInTitle() <= 5;
-    }
-
-    private static int orderByNumberOfComments(Entry entry1, Entry entry2) {
-        return Integer.compare(entry2.getComments(), entry1.getComments());
-    }
-
-    private static int orderByPoints(Entry entry1, Entry entry2) {
-        return Integer.compare(entry2.getPoints(), entry1.getPoints());
     }
 }
