@@ -99,4 +99,36 @@ class JSoupDocumentParserTest {
         assertEquals(37, firstEntry.getComments());
     }
 
+    @Test
+    void shouldGetEntriesWhenInputIsNull() throws Exception {
+
+        List<Entry> result = webClient.getEntries(null);
+
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(30, result.size());
+        Entry firstEntry = result.get(14);
+        log.info(new ObjectMapper().writeValueAsString(firstEntry));
+        assertEquals(15, firstEntry.getNumber());
+        assertEquals("Machine Payments Protocol (MPP)", firstEntry.getTitle());
+        assertEquals(120, firstEntry.getPoints());
+        assertEquals(64, firstEntry.getComments());
+    }
+
+    @Test
+    void shouldGetEntriesWhenInputIsNegative() throws Exception {
+
+        List<Entry> result = webClient.getEntries(-5);
+
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(30, result.size());
+        Entry firstEntry = result.get(14);
+        log.info(new ObjectMapper().writeValueAsString(firstEntry));
+        assertEquals(15, firstEntry.getNumber());
+        assertEquals("Machine Payments Protocol (MPP)", firstEntry.getTitle());
+        assertEquals(120, firstEntry.getPoints());
+        assertEquals(64, firstEntry.getComments());
+    }
+
 }

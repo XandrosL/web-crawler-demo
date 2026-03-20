@@ -24,7 +24,7 @@ import web.crawler.demo.domain.TitleFilter;
 
 @Entity
 @Table(name = "usage_data", schema = "metrics", indexes = {
-        @Index(name = "idx_usage_data_title_filter", columnList = "title_filter")
+        @Index(name = "idx_usage_data_title_filter", columnList = "applied_filter")
 })
 @Getter
 @Setter

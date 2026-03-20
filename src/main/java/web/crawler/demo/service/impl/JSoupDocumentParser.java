@@ -28,9 +28,9 @@ public class JSoupDocumentParser implements DocumentParser {
     private final AppProperties appProperties;
     private final JSoupClient jsoupClient;
 
-    public List<Entry> getEntries(Integer numberOfEntries) {
-        if (numberOfEntries == null || numberOfEntries < 0) {
-            numberOfEntries = 30;
+    public List<Entry> getEntries(Integer limit) {
+        if (limit == null || limit < 0) {
+            limit = 30;
         }
         Document document = jsoupClient.getDocument(appProperties.getTargetUrl());
         log.debug("Document charset: {}", document.outputSettings().charset());
@@ -40,7 +40,7 @@ public class JSoupDocumentParser implements DocumentParser {
         // a submission, a subline, and a spacer row.
         // Logic depends on elements within the Document being ordered.
         List<List<Element>> partitionedRows = Lists.partition(rows.asList(), 3);
-        return partitionedRows.stream().limit(numberOfEntries).map(rowlist -> {
+        return partitionedRows.stream().limit(limit).map(rowlist -> {
             Element submission = extractSubmission(rowlist);
             Element subline = extractSubline(rowlist);
             return Entry.builder()
