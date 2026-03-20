@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import lombok.extern.slf4j.Slf4j;
 import web.crawler.demo.domain.Entry;
+import web.crawler.demo.domain.TitleFilter;
 import web.crawler.demo.service.DocumentParser;
 import web.crawler.demo.service.UsageDataService;
 import web.crawler.demo.util.MockData;
@@ -40,6 +42,7 @@ class WebCrawlerServiceImplTest {
 
         assertNotNull(result);
         assertEquals(5, result.size());
+        verify(usageDataService).saveUsageData(5, null, TitleFilter.NONE, 5);
 
         when(documentParser.getEntries(10)).thenReturn(MockData.ENTRY_LIST_WITH_10_ITEMS);
 
@@ -63,9 +66,11 @@ class WebCrawlerServiceImplTest {
         List<Entry> result = webCrawlerService.getEntries(5, "long");
 
         assertNotNull(result);
+        assertEquals(3, result.size());
         result.forEach(entry -> assertTrue(entry.countWordsInTitle() > 5,
                 "Entry should have 6 or more words in title - It has " + entry.countWordsInTitle()
                         + " words; title: " + entry.getTitle()));
+        verify(usageDataService).saveUsageData(5, "long", TitleFilter.LONG, 3);
     }
 
     @Test
@@ -75,9 +80,11 @@ class WebCrawlerServiceImplTest {
         List<Entry> result = webCrawlerService.getEntries(5, "short");
 
         assertNotNull(result);
+        assertEquals(5, result.size());
         result.forEach(entry -> assertTrue(entry.countWordsInTitle() <= 5,
                 "Entry should have 5 or fewer words in title - It has " + entry.countWordsInTitle()
                         + " words; title: " + entry.getTitle()));
+        verify(usageDataService).saveUsageData(5, "short", TitleFilter.SHORT, 5);
     }
 
     @Test
@@ -87,6 +94,7 @@ class WebCrawlerServiceImplTest {
         List<Entry> result = webCrawlerService.getEntries(5, "long");
 
         assertNotNull(result);
+        result.stream().forEach(entry -> assertTrue(entry.getComments() > 0));
         result.stream().reduce((e1, e2) -> {
             assertTrue(e1.getComments() >= e2.getComments(),
                     "Entries should be ordered by number of comments in descending order - Entry with "
@@ -102,6 +110,8 @@ class WebCrawlerServiceImplTest {
 
         List<Entry> result = webCrawlerService.getEntries(5, "short");
 
+        assertNotNull(result);
+        result.stream().forEach(entry -> assertTrue(entry.getPoints() > 0));
         result.stream().reduce((e1, e2) -> {
             assertTrue(e1.getPoints() >= e2.getPoints(),
                     "Entries should be ordered by points in descending order - Entry with "

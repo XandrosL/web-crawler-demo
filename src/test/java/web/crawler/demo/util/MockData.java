@@ -34,6 +34,13 @@ public class MockData {
                         .comments(58)
                         .build();
 
+        public static final Entry ENTRY_WITH_10_WORDS_V2 = Entry.builder()
+                        .number(9)
+                        .title("Bombarding gamblers with offers greatly increases betting and gambling harm ")
+                        .points(64)
+                        .comments(65)
+                        .build();
+
         public static final Entry ENTRY_WITH_4_WORDS = Entry.builder()
                         .number(1)
                         .title("A Decade of Slug")
@@ -41,28 +48,41 @@ public class MockData {
                         .comments(34)
                         .build();
 
-        public static final List<Entry> ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES = List.of(
-                        ENTRY_WITH_1_WORD,
-                        ENTRY_WITH_12_WORDS,
-                        ENTRY_WITH_4_WORDS,
-                        ENTRY_WITH_5_WORDS,
-                        ENTRY_WITH_10_WORDS);
-
-        public static final List<Entry> ENTRY_LIST_WITH_LONG_TITLES = List.of(
-                        ENTRY_WITH_10_WORDS,
-                        ENTRY_WITH_12_WORDS);
-
-        public static final List<Entry> ENTRY_LIST_WITH_SHORT_TITLES = List.of(
-                        ENTRY_WITH_4_WORDS,
-                        ENTRY_WITH_1_WORD,
-                        ENTRY_WITH_5_WORDS);
-
         public static final Entry ENTRY_WITH_4_WORDS_V2 = Entry.builder()
                         .number(15)
                         .title("Machine Payments Protocol (MPP)")
                         .points(120)
                         .comments(64)
                         .build();
+
+        public static final Entry ENTRY_WITH_4_WORDS_V3 = Entry.builder()
+                        .number(29)
+                        .title("The Shape of Inequalities")
+                        .points(97)
+                        .comments(15)
+                        .build();
+
+        public static final List<Entry> ENTRY_LIST_WITH_LONG_AND_SHORT_TITLES = List.of(
+                        ENTRY_WITH_10_WORDS,
+                        ENTRY_WITH_10_WORDS_V2,
+                        ENTRY_WITH_4_WORDS,
+                        ENTRY_WITH_4_WORDS_V2,
+                        ENTRY_WITH_4_WORDS_V3,
+                        ENTRY_WITH_12_WORDS,
+                        ENTRY_WITH_1_WORD,
+                        ENTRY_WITH_5_WORDS);
+
+        public static final List<Entry> ENTRY_LIST_WITH_LONG_TITLES = List.of(
+                        ENTRY_WITH_10_WORDS,
+                        ENTRY_WITH_12_WORDS,
+                        ENTRY_WITH_10_WORDS_V2);
+
+        public static final List<Entry> ENTRY_LIST_WITH_SHORT_TITLES = List.of(
+                        ENTRY_WITH_4_WORDS_V3,
+                        ENTRY_WITH_4_WORDS,
+                        ENTRY_WITH_1_WORD,
+                        ENTRY_WITH_5_WORDS,
+                        ENTRY_WITH_4_WORDS_V2);
 
         public static final Entry ENTRY_1 = Entry.builder()
                         .number(8)
