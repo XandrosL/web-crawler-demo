@@ -69,6 +69,7 @@ jacocoTestReport {
 pitest {
     junit5PluginVersion = '1.2.3'
     targetClasses = ['web.crawler.demo.*']
+    excludedClasses = ['web.crawler.demo.configuration.*']
     threads = 16
     outputFormats = ['HTML', 'XML']
 }
