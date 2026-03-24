@@ -13,4 +13,5 @@ import lombok.experimental.FieldDefaults;
 public class AppProperties {
 
     String targetUrl;
+    Long cacheExpirationSeconds;
 }
