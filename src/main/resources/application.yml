@@ -21,3 +21,4 @@ spring:
       path: /h2-console
 application:
   target-url: https://news.ycombinator.com/
+  cache-expiration-seconds: 30
